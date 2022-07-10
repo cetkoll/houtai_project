@@ -68,7 +68,7 @@ export default {
                 type: 'success'
               })
               this.$store.commit('setToken', res.data.data.token)
-              this.$router.push('/home')
+              this.$router.push('/user')
             }
           } catch (error) {
             console.log(error)

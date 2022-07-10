@@ -1,10 +1,12 @@
 <template>
-  <router-view></router-view>
+<div>
+    角色列表
+</div>
 </template>
 
 <script>
 export default {
-  created () { },
+  created () {},
   data () {
     return {}
   },
@@ -17,4 +19,5 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
