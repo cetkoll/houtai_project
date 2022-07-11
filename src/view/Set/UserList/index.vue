@@ -1,12 +1,16 @@
 <template>
-<div>
+  <div>
+    <Breadcrumb :pathList="$route.matched"></Breadcrumb>
+
     角色列表
-</div>
+  </div>
 </template>
 
 <script>
+import Breadcrumb from '@/components/Breadcrumb'
+
 export default {
-  created () {},
+  created () { },
   data () {
     return {}
   },
@@ -14,10 +18,9 @@ export default {
   computed: {},
   watch: {},
   filters: {},
-  components: {}
+  components: { Breadcrumb }
 }
 </script>
 
 <style scoped>
-
 </style>

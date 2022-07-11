@@ -8,17 +8,18 @@ const routes = [
   { path: '/login', component: () => import('@/view/Login') },
   {
     path: '/',
+    meta: { title: '首页' },
     component: () => import('@/view/Layout'),
-    redirect: '/user',
+    redirect: '/users',
     children: [
-      { path: 'user', name: 'user', component: () => import('@/view/User/List') },
-      { path: 'setlist', component: () => import('@/view/Set/SetList') },
-      { path: 'userlist', component: () => import('@/view/Set/UserList') },
-      { path: 'goodsList', component: () => import('@/view/Goods/GoodsList') },
-      { path: 'goodsArgument', component: () => import('@/view/Goods/GoodsArgument') },
-      { path: 'goodsClassify', component: () => import('@/view/Goods/GoodsClassify') },
-      { path: 'orderList', component: () => import('@/view/Order/OrderList') },
-      { path: 'dataList', component: () => import('@/view/Data/DataList') }
+      { path: 'users', meta: { title: '用户列表' }, component: () => import('@/view/User/List') },
+      { path: 'rights', meta: { title: '权限列表' }, component: () => import('@/view/Set/SetList') },
+      { path: 'roles', meta: { title: '角色列表' }, component: () => import('@/view/Set/UserList') },
+      { path: 'goods', meta: { title: '商品列表' }, component: () => import('@/view/Goods/GoodsList') },
+      { path: 'params', meta: { title: '分类参数' }, component: () => import('@/view/Goods/GoodsArgument') },
+      { path: 'categories', meta: { title: '商品分类' }, component: () => import('@/view/Goods/GoodsClassify') },
+      { path: 'orders', meta: { title: '订单列表' }, component: () => import('@/view/Order/OrderList') },
+      { path: 'reports', meta: { title: '数据报表' }, component: () => import('@/view/Data/DataList') }
     ]
   }
 ]
