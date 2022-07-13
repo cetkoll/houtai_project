@@ -10,10 +10,18 @@
           class="demo-ruleForm"
         >
           <el-form-item prop="username">
-            <el-input v-model="ruleForm.username"  prefix-icon="el-icon-s-custom"></el-input>
+            <el-input
+              v-model="ruleForm.username"
+              prefix-icon="el-icon-s-custom"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" v-model="ruleForm.password" prefix-icon="el-icon-lock"></el-input>
+            <el-input
+              type="password"
+              v-model="ruleForm.password"
+              prefix-icon="el-icon-lock"
+              @keyup.enter.native="login"
+            ></el-input>
           </el-form-item>
           <el-form-item>
             <el-button @click="clean">重置</el-button>
