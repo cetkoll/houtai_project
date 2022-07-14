@@ -2,8 +2,16 @@
   <div>
     <Breadcrumb :pathList="$route.matched"></Breadcrumb>
     <el-card class="box-card">
-      <el-input placeholder="请输入内容" v-model="inputValue" clearable>
-        <template slot="append"><i class="el-icon-search"></i></template>
+      <el-input
+        placeholder="请输入内容"
+        v-model="inputValue"
+        clearable
+        @clear="delSearch"
+        @keyup.native.enter="search"
+      >
+        <template slot="append"
+          ><i class="el-icon-search" @click="search"></i
+        ></template>
       </el-input>
       <el-button type="primary" @click="addVisible = true">添加用户</el-button>
 
@@ -43,7 +51,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="[1, 2, 5, 10]"
+        :page-size="5"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
+    <!-- 编辑弹出层 -->
     <el-dialog
       @close="close"
       title="编辑用户"
@@ -71,6 +90,7 @@
         <el-button type="primary" @click="sure">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 删除弹出层 -->
     <el-dialog title="提示" :visible.sync="delVisible" width="25%">
       <div class="digtitle">
         <i class="el-icon-warning"></i>
@@ -81,6 +101,7 @@
         <el-button type="primary" @click="deluser">确 定</el-button>
       </span>
     </el-dialog>
+    <!-- 设置弹出层 -->
     <el-dialog title="分配角色" :visible.sync="powerVisible" width="30%">
       <p>
         当前的用户:<span>{{ userName }}</span>
@@ -135,7 +156,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="addVisible = false">取 消</el-button>
-        <el-button type="primary" @click="addVisible = false">确 定</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -143,7 +164,7 @@
 
 <script>
 import Breadcrumb from '@/components/Breadcrumb'
-import { getTableList, changeStatus, updateUser, delUser, getPower, updatePower } from '@/api/user'
+import { getTableList, changeStatus, updateUser, delUser, getPower, updatePower, addUser } from '@/api/user'
 import { validatePhone, validateEmail } from '@/utils/validate.js'
 export default {
   created () {
@@ -165,6 +186,7 @@ export default {
       }
     }
     return {
+      total: 0,
       addUserForm: {
         username: '',
         password: '',
@@ -209,8 +231,9 @@ export default {
       dialogVisible: false, // 编辑弹出层
       inputValue: '', // 搜索时的value值
       params: { // 获取用户列表需要传递的参数
+        query: '',
         pagenum: 1,
-        pagesize: 10
+        pagesize: 5
       },
       tableData: [] // 用户列表
     }
@@ -238,6 +261,8 @@ export default {
     async getTableList () {
       try {
         const res = await getTableList(this.params)
+        console.log(res)
+        this.total = res.data.data.total
         this.tableData = res.data.data.users
         this.tableData.forEach(item => {
           item.status = item.mg_state ? 1 : 0
@@ -286,13 +311,17 @@ export default {
     //! 确定删除用户
     async deluser () {
       try {
-        await delUser(this.userId)
+        const res = await delUser(this.userId)
+        if (res.data.meta.status === 400) {
+          this.$message.error(res.data.meta.msg)
+        } else {
+          this.$message.success('删除成功')
+        }
         this.getTableList()
       } catch (error) {
         this.$message.error('删除失败')
       }
       this.delVisible = false
-      this.$message.success('删除成功')
     },
     //! 点击设置按钮 获取角色列表
     async power (row) {
@@ -325,8 +354,45 @@ export default {
         this.$message.error('分配失败')
       }
     },
+    //! 添加用户弹出层关闭时
     addClose () {
       this.$refs.addForm.resetFields()
+    },
+    //! 添加用户
+    addUser () {
+      this.$refs.addForm.validate(async value => {
+        if (value) {
+          try {
+            await addUser(this.addUserForm)
+            this.getTableList()
+          } catch (error) {
+            this.$message.error('添加用户失败')
+          }
+        } else {
+          this.$message.error('请输入正确的格式')
+        }
+      })
+      this.addVisible = false
+    },
+    //! 搜索用户
+    search () {
+      this.params.query = this.inputValue
+      this.getTableList()
+    },
+    //! 搜索用户
+    delSearch () {
+      this.params.query = ''
+      this.getTableList()
+    },
+    //! 分页
+    handleSizeChange (val) {
+      this.params.pagesize = val
+      this.getTableList()
+    },
+    //! 分页
+    handleCurrentChange (val) {
+      this.params.pagenum = val
+      this.getTableList()
     }
   },
   computed: {},
@@ -345,7 +411,6 @@ export default {
 }
 .el-card {
   width: 1660px;
-  height: 456px;
 }
 .cell {
   .el-button {
@@ -387,5 +452,8 @@ export default {
 }
 p {
   line-height: 30px;
+}
+.el-pagination{
+  margin-top: 10px;
 }
 </style>

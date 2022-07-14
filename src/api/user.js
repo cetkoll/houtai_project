@@ -63,3 +63,12 @@ export const updatePower = ({ id, rid }) => {
     }
   })
 }
+
+//! 添加用户
+export const addUser = (data) => {
+  return request({
+    method: 'POST',
+    url: 'users',
+    data
+  })
+}
