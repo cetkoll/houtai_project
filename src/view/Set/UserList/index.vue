@@ -62,7 +62,13 @@
           <span>此操作将永久删除该用户，是否继续</span>
         </div>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="delfail">取 消</el-button>
+          <el-button
+            @click="
+              delVisible = false;
+              $message('取消删除');
+            "
+            >取 消</el-button
+          >
           <el-button type="primary" @click="delSure">确 定</el-button>
         </span>
       </el-dialog>
@@ -136,10 +142,6 @@ export default {
       this.tagItem = item
       this.roleId = role
       this.rightId = right
-    },
-    delfail () {
-      this.delVisible = false
-      this.$message('取消删除')
     },
     async delSure () {
       this.delVisible = false
