@@ -8,11 +8,7 @@
           <el-button size="small" type="text" @click="visible = false"
             >取消
           </el-button>
-          <el-button
-            type="primary"
-            size="small"
-            @click="(visible = false), $router.push('/login')"
-          >
+          <el-button type="primary" size="small" @click="logout">
             确定</el-button
           >
         </div>
@@ -77,6 +73,11 @@ export default {
   methods: {
     change () {
       this.flag = !this.flag
+    },
+    logout () {
+      this.visible = false
+      this.$store.commit('setToken', '')
+      this.$router.push('/login')
     }
   },
   computed: {},
@@ -128,10 +129,10 @@ export default {
     }
   }
 }
-.el-main{
-  background-color:#eaedf1;
-  padding-left:20px;
-  padding-right:20px;
+.el-main {
+  background-color: #eaedf1;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .el-submenu {
   width: 200px;

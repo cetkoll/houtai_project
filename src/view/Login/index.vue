@@ -76,6 +76,8 @@ export default {
                 type: 'success'
               })
               this.$store.commit('setToken', res.data.data.token)
+              this.$store.commit('setTime')
+
               this.$router.push('/user')
             }
           } catch (error) {

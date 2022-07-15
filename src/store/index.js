@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     houtai: {
-      token: ''
+      token: '',
+      time: 0
     }
   },
   getters: {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
   mutations: {
     setToken (state, payload) {
       state.houtai.token = payload
+    },
+    setTime (state, payload) {
+      state.houtai.time = Date.now()
     }
   },
   actions: {

@@ -109,25 +109,27 @@ export default {
   },
   data () {
     return {
-      setTreeList: [],
-      treeData: [],
+      setTreeList: [], //! 设置后的树选项对应id
+      treeData: [], //! 树的数据
       dialogVisible: false,
-      tagItem: {},
-      tagIndex: 0,
+      tagItem: {}, //! 删除标签时的当前标签数组
+      tagIndex: 0, //! 删除标签时当前标签的索引
       delVisible: false,
-      tableData: [],
-      roleId: '',
-      rightId: '',
-      defaultProps: {
+      tableData: [], //! 表格数据
+      roleId: '', //! 当前项的用户id
+      rightId: '', //! 当前用户的权限id
+      defaultProps: { //! 渲染树的配置
         label: 'authName'
       },
-      defaultList: []
+      defaultList: [] //! 默认选中树中的选项
     }
   },
   methods: {
+    //! 表格索引值
     index (index) {
       return ++index
     },
+    //! 获取表格的数据
     async getRoles () {
       try {
         const res = await getRoles()
@@ -136,6 +138,7 @@ export default {
         console.log(error)
       }
     },
+    //! 点击删除标签时
     delSet (tag, item, role, right) {
       this.delVisible = true
       this.tagIndex = tag
@@ -143,6 +146,7 @@ export default {
       this.roleId = role
       this.rightId = right
     },
+    //! 确定删除标签
     async delSure () {
       this.delVisible = false
       try {
@@ -153,6 +157,7 @@ export default {
         this.$message.error('删除权限失败')
       }
     },
+    //! 获取树的数据
     async setTree (row) {
       this.roleId = row.id
       this.getDefault(row.children)
@@ -164,6 +169,7 @@ export default {
       }
       this.dialogVisible = true
     },
+    //! 树中默认选中的项
     getDefault (item) {
       item.forEach(item1 => {
         if (item1.children) {
@@ -173,10 +179,12 @@ export default {
         }
       })
     },
+    //! 选中或者取消选项时
     show () {
       this.setTreeList = [...this.$refs.tree.getCheckedKeys(), ...this.$refs.tree.getHalfCheckedKeys()]
       console.log(this.setTreeList)
     },
+    //! 确定树中的操作时
     async lastTree () {
       const rids = this.setTreeList.join(',')
       try {
