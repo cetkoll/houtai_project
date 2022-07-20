@@ -13,9 +13,9 @@ export const delUserSet = ({ roleId, rightId }) => {
   })
 }
 //! 获取树的数据
-export const getTree = () => {
+export const getTree = (type) => {
   return request({
-    url: 'rights/tree'
+    url: `rights/${type}`
   })
 }
 //! 批量添加或删除用户权限

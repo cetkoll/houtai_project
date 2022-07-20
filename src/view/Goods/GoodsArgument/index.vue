@@ -2,7 +2,7 @@
   <div>
     <Breadcrumb :pathList="$route.matched"></Breadcrumb>
 
-    商品属性
+    分类参数
   </div>
 </template>
 

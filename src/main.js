@@ -8,7 +8,7 @@ import '@/styles/reset.less'
 import '@/premission'
 Vue.use(ElementUI)
 Vue.config.productionTip = false
-
+// import dayjs from 'dayjs' // ES 2015
 new Vue({
   router,
   store,

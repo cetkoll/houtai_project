@@ -19,7 +19,8 @@ const routes = [
       { path: 'params', meta: { title: '分类参数' }, component: () => import('@/view/Goods/GoodsArgument') },
       { path: 'categories', meta: { title: '商品分类' }, component: () => import('@/view/Goods/GoodsClassify') },
       { path: 'orders', meta: { title: '订单列表' }, component: () => import('@/view/Order/OrderList') },
-      { path: 'reports', meta: { title: '数据报表' }, component: () => import('@/view/Data/DataList') }
+      { path: 'reports', meta: { title: '数据报表' }, component: () => import('@/view/Data/DataList') },
+      { path: 'addGoods', meta: { title: '添加商品' }, component: () => import('@/view/AddGoods') }
     ]
   }
 ]

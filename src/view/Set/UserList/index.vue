@@ -162,7 +162,7 @@ export default {
       this.roleId = row.id
       this.getDefault(row.children)
       try {
-        const res = await getTree()
+        const res = await getTree('tree')
         this.treeData = res.data.data
       } catch (error) {
         console.log(error)
@@ -182,7 +182,6 @@ export default {
     //! 选中或者取消选项时
     show () {
       this.setTreeList = [...this.$refs.tree.getCheckedKeys(), ...this.$refs.tree.getHalfCheckedKeys()]
-      console.log(this.setTreeList)
     },
     //! 确定树中的操作时
     async lastTree () {
@@ -278,5 +277,8 @@ export default {
       border-bottom: 0;
     }
   }
+}
+.el-table {
+  margin-top: 15px;
 }
 </style>

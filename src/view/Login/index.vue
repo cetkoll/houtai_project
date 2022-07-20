@@ -66,10 +66,9 @@ export default {
           try {
             const res = await login(this.ruleForm)
             this.list = res.data.meta
-            if (this.list.msg === '用户名不存在') {
-              this.$message.error('用户名不存在')
-            } else if (this.list.msg === '密码错误') {
-              this.$message.error('密码错误')
+            console.log(this.list)
+            if (this.list.status === 400) {
+              this.$message.error(this.list.msg)
             } else {
               this.$message({
                 message: '登陆成功',
