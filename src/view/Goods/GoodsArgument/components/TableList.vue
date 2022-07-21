@@ -10,8 +10,8 @@
     <el-table style="margin-top: 10px" :data="cateList" border stripe>
       <el-table-column type="expand" v-slot="scope">
         <el-tag
-          :key="tag"
-          v-for="tag in scope.row.attr"
+          :key="index"
+          v-for="(tag, index) in scope.row.attr"
           closable
           :disable-transitions="false"
           @close="handleClose(tag, scope.row)"
@@ -143,6 +143,7 @@ export default {
         row.attr.push(inputValue)
         this.updataAdd.attr_name = row.attr_name
         this.updataAdd.attr_vals = row.attr.join(' ')
+        console.log(this.updataAdd)
         this.updata(row.cat_id, row.attr_id, this.updataAdd)
       }
       this.inputVisible = false
@@ -151,11 +152,11 @@ export default {
     //! 更新参数请求
     async updata (id, attrId) {
       if (this.activeName === 'first') {
-        this.addForm.attr_sel = 'many'
+        this.updataAdd.attr_sel = 'many'
       } else {
-        this.addForm.attr_sel = 'only'
+        this.updataAdd.attr_sel = 'only'
       }
-      await updataAttr({ id: id, attrId: attrId, data: this.addForm })
+      await updataAttr({ id: id, attrId: attrId, data: this.updataAdd })
     },
     //! 弹出框的确认按钮
     addClick () {
@@ -169,13 +170,13 @@ export default {
           if (this.flag) {
             await addAttr(this.attrId, this.addForm)
           } else {
-            this.updata(this.changeattr.id, this.changeattr.attr)
+            await updataAttr({ id: this.changeattr.id, attrId: this.changeattr.attr, data: this.addForm })
           }
+          this.$emit('changeTable')
         } else {
           console.log(222)
         }
       })
-      this.$emit('changeTable')
       this.addVisible = false
     },
     //! 编辑按钮

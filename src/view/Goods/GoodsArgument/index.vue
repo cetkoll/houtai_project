@@ -88,6 +88,7 @@ export default {
           }
         })
         this.cateList = res.data.data
+        console.log(this.cateList)
         const res1 = await cateList(this.attrId, 'only')
         res1.data.data.forEach(item => {
           if (item.attr_vals === '') {

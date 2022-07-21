@@ -7,10 +7,10 @@ export const getGoodsList = (params) => {
   })
 }
 //! 获取分类列表
-export const getCategories = () => {
+export const getCategories = (params) => {
   return request({
     url: 'categories',
-    params: {}
+    params
   })
 }
 
@@ -55,5 +55,14 @@ export const delAttr = (id, attrid) => {
   return request({
     method: 'DELETE',
     url: `categories/${id}/attributes/${attrid}`
+  })
+}
+
+//! 添加分类
+export const addCate = (data) => {
+  return request({
+    method: 'POST',
+    url: 'categories',
+    data
   })
 }
