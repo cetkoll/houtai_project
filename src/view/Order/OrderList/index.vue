@@ -1,8 +1,7 @@
 <template>
   <div>
     <Breadcrumb :pathList="$route.matched"></Breadcrumb>
-
-    商品订单
+    <el-card></el-card>
   </div>
 </template>
 

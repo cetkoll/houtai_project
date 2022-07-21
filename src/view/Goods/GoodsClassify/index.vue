@@ -68,6 +68,15 @@
           <el-button type="primary" @click="addGoods">确 定</el-button>
         </span>
       </el-dialog>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="[2, 4, 6, 8]"
+        :page-size="4"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>
     </el-card>
   </div>
 </template>
@@ -78,6 +87,7 @@ import { getCategories, addCate } from '@/api/goods'
 export default {
   created () {
     this.getCategories()
+    this.getCateList()
   },
   data () {
     return {
@@ -102,21 +112,27 @@ export default {
         cat_pid: 0,
         cat_name: '',
         cat_level: 0
-      }
+      },
+      total: null
     }
   },
   methods: {
     async getCategories () {
       try {
-        this.params.pagesize = 4
         const res = await getCategories(this.params)
-        this.params.pagesize = null
-        const res1 = await getCategories(this.params)
-        this.tableDataList = res1.data.data
         this.tableData = res.data.data.result
         this.tableData.forEach((item, index) => {
           item.index = index + 1
         })
+        this.total = res.data.data.total
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async getCateList () {
+      try {
+        const res1 = await getCategories()
+        this.tableDataList = res1.data.data
       } catch (error) {
         console.log(error)
       }
@@ -132,6 +148,7 @@ export default {
         this.data.cat_name = this.form.name
         await addCate(this.data)
         this.$message.success('创建成功')
+        this.getCateList()
         this.getCategories()
       } catch (error) {
         this.$message.error('创建失败')
@@ -140,6 +157,16 @@ export default {
     close () {
       this.$refs.myform.resetFields()
       this.value = ''
+    },
+    handleSizeChange (val) {
+      console.log(val)
+      this.params.pagesize = val
+      this.getCategories()
+    },
+    handleCurrentChange (val) {
+      console.log(val)
+      this.params.pagenum = val
+      this.getCategories()
     }
   },
   computed: {},
