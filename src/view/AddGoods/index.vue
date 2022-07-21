@@ -132,7 +132,6 @@ export default {
       updataPictrue: false, //! 图片预览弹出层
       tabPosition: 'left', //! 忘了是啥
       active: 0, //! 进度条
-      attrs: {},
       addData: {
         attrs: [], //! 商品参数
         pics: [], //! 图片路径
@@ -219,19 +218,19 @@ export default {
       console.log(file, fileList)
     },
     handlePreview (file) {
-      console.log(file)
       this.dialogImageUrl = file.url
       this.updataPictrue = true
     },
+    //! 动态参数
     onChecked (item, index) {
-      console.log(item, index)
+      // 处理动态参数
       this.addData.attrs[index].attr_value = item.attr_vals.join(' ')
-      console.log(this.addData.attrs)
     },
+    //! 描述
     description (value) {
       this.addData.goods_introduce = value.ops[0].insert
-      console.log(this.addData.goods_introduce)
     },
+    //! 添加商品
     addGood () {
       const list = []
       this.arrList.forEach(item => {
@@ -241,6 +240,7 @@ export default {
         }
         list.push(obj)
       })
+      // 处理attrs参数
       this.addData.attrs.push(...list)
       this.$refs.myGoods.validate(async (value) => {
         if (value) {

@@ -31,3 +31,29 @@ export const addGoods = (data) => {
     data
   })
 }
+
+//! 添加或删除分类参数
+export const updataAttr = ({ id, attrId, data }) => {
+  return request({
+    method: 'PUT',
+    url: `categories/${id}/attributes/${attrId}`,
+    data
+  })
+}
+
+//! 添加动态或静态参数
+export const addAttr = (id, data) => {
+  return request({
+    method: 'POST',
+    url: `categories/${id}/attributes`,
+    data
+  })
+}
+
+//! 删除参数
+export const delAttr = (id, attrid) => {
+  return request({
+    method: 'DELETE',
+    url: `categories/${id}/attributes/${attrid}`
+  })
+}
