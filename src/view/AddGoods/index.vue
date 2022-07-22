@@ -174,7 +174,7 @@ export default {
       }
     },
     handleChange (value) {
-      this.cateId = value[0]
+      this.cateId = value[value.length - 1]
       this.addData.goods_cat = value.join(',')
       console.log(this.addData.goods_cat)
     },
@@ -185,22 +185,25 @@ export default {
     },
     //! 商品参数
     async actOne () {
-      this.active = 1
-      try {
-        const res = await cateList(this.cateId, 'many')
-        res.data.data.forEach(item => {
-          const obj = {
-            attr_id: item.attr_id,
-            attr_value: item.attr_vals
-          }
-          // attr参数
-          this.addData.attrs.push(obj)
-          item.attr_vals = item.attr_vals.split(' ')
-          this.cateList.push(item)
-        })
-        console.log(this.addData.attrs)
-      } catch (error) {
-        console.log(error)
+      if (this.active !== 1) {
+        this.active = 1
+        this.cateList = []
+        try {
+          const res = await cateList(this.cateId, 'many')
+          res.data.data.forEach(item => {
+            const obj = {
+              attr_id: item.attr_id,
+              attr_value: item.attr_vals
+            }
+            // attr参数
+            this.addData.attrs.push(obj)
+            item.attr_vals = item.attr_vals.split(' ')
+            this.cateList.push(item)
+          })
+          console.log(res)
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     //! 商品属性
@@ -224,7 +227,9 @@ export default {
     //! 动态参数
     onChecked (item, index) {
       // 处理动态参数
+      console.log(this.addData.attrs)
       this.addData.attrs[index].attr_value = item.attr_vals.join(' ')
+      console.log(this.addData.attrs)
     },
     //! 描述
     description (value) {
